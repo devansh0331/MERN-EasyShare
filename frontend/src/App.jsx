@@ -174,7 +174,7 @@ function App() {
     
     </div>
     <div className='App-details'> 
-    <span>Welcome to <strong>Easy Share</strong> !</span>
+    <span>Welcome to <strong>File Linker</strong> !</span>
       <div className='App-details-top'>
       <button onClick={() => onUploadClick()}>Upload</button>
 
