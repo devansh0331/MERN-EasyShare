@@ -1,6 +1,8 @@
 
 import Particles from "react-tsparticles";
 
+import { InfinitySpin } from  'react-loader-spinner'
+
 import { loadFull } from "tsparticles";
 import './App.css';
 import React, { useEffect, useRef, useState } from 'react'
@@ -9,6 +11,7 @@ import { uploadfile } from './services/api';
 function App() {
   const [file, setfile] = useState()
   const [resullt, setResult] = useState('')
+  const [loading, setLoading] = useState(false)
   const fileInputRef = useRef()
   console.log(file);
 
@@ -31,13 +34,17 @@ function App() {
         const data = new FormData()
         data.append("name" , file.name)
         data.append("file" , file)
+        setLoading(true)
 
        let response = await uploadfile(data)
+       setLoading(false)
        setResult(response.path)
+      
       }
     }
   
     getImage()
+
   }, [file])
   
   
@@ -182,7 +189,8 @@ function App() {
       <input ref={(fileInputRef)} type="file" onChange={e => setfile(e.target.files[0])} style={{display:'none'}}/>
       <div className='App-details-bottom'>
         
-      {resullt ?<div className="animate__animated animate__fadeInUp"><p>Click below URL to Download or Share with anyone</p><a href={resullt}> {resullt} </a></div> : <p> Download URL will come here...</p>}
+      {resullt ? 
+<div className="animate__animated animate__fadeInUp downloadLink"><p>Click below URL to Download or Share with anyone</p>{loading ? <InfinitySpin width='100' heigth='50' color="#fff"/> : <a href={resullt}> {resullt} </a>}</div> : <div className="download"> <p> Download URL will come here...</p>{loading && <InfinitySpin width='100' heigth='50' color="#fff"/>}</div>}
       </div>
     </div>
     </div>
